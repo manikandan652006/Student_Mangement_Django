@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Student List</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gray-100">
+
+    <!-- Header -->
+    <div class="bg-white shadow px-6 py-4 flex items-center justify-between">
+        <h2 class="text-xl font-bold text-gray-800">
+            Student List
+        </h2>
+
+        <div class="flex items-center gap-4">
+            <span class="text-gray-600">
+                Welcome, <strong>{{ request.user.username }}</strong>
+            </span>
+
+            <a
+                href="{% url 'logout' %}"
+                class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-semibold transition"
+            >
+                Logout
+            </a>
+        </div>
+    </div>
+
+    <!-- Content -->
+    <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+            <a
+                href="{% url 'student_create' %}"
+                class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg font-semibold transition"
+            >
+                + Add Student
+            </a>
+        </div>
+
+        <div class="overflow-x-auto bg-white rounded-xl shadow">
+            <table class="min-w-full border border-gray-200">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Name</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Age</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Email</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Course</th>
+                        <th class="px-4 py-3 text-center text-sm font-semibold text-gray-700">Actions</th>
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y">
+                    {% for s in student %}
+                    <tr class="hover:bg-gray-50">
+                        <td class="px-4 py-3">{{ s.name }}</td>
+                        <td class="px-4 py-3">{{ s.age }}</td>
+                        <td class="px-4 py-3">{{ s.email }}</td>
+                        <td class="px-4 py-3">{{ s.course }}</td>
+                        <td class="px-4 py-3">
+                            <div class="flex justify-center gap-2 flex-wrap">
+                                <a href="{% url 'student_detail' s.id %}"
+                                   class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded text-sm">
+                                    View
+                                </a>
+
+                                <a href="{% url 'student_update' s.id %}"
+                                   class="bg-yellow-500 hover:bg-yellow-600 text-white px-3 py-1 rounded text-sm">
+                                    Edit
+                                </a>
+
+                                <a href="{% url 'student_delete' s.id %}"
+                                   class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded text-sm">
+                                    Delete
+                                </a>
+
+                                <a href="{% url 'student_profile' s.id %}"
+                                   class="bg-purple-500 hover:bg-purple-600 text-white px-3 py-1 rounded text-sm">
+                                    Profile
+                                </a>
+                            </div>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="text-center py-6 text-gray-500">
+                            No students found.
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</body>
+</html>
